@@ -7,7 +7,7 @@ import cv2
 import imutils
 import time
 import pyautogui as pa
-pa.click(1047, 491)
+import vlc
 
 # construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
@@ -40,6 +40,12 @@ else:
 
 # allow the camera or video file to warm up
 time.sleep(2.0)
+
+instance = vlc.Instance()
+mediaplayer = instance.media_player_new()
+media = instance.media_new("1.mp3")
+mediaplayer.set_media(media)
+media.parse()
 
 # keep looping
 while True:
@@ -115,10 +121,12 @@ while True:
             if np.abs(dX) > 20:
                 if np.sign(dX) == 1:
                     dirX = "East"
-                    pa.hotkey('ctrl', 'down')
+                    #pa.hotkey('ctrl', 'down')
+                    mediaplayer.audio_set_volume(mediaplayer.audio_get_volume - 1)
                 else:
                     dirX = "West"
-                    pa.hotkey('ctrl', 'up')
+                    #pa.hotkey('ctrl', 'up')
+                    mediaplayer.audio_set_volume(mediaplayer.audio_get_volume + 1)
 
 
             # ensure there is significant movement in the
